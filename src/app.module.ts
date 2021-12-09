@@ -7,6 +7,9 @@ import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path/posix';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserGigsModule } from './user-gigs/user-gigs.module';
+import { SkillModule } from './skill/skill.module';
+import { UserSkillModule } from './user-skill/user-skill.module';
 
 @Module({
   imports: [
@@ -17,6 +20,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
     UserProfileModule,
+    UserGigsModule,
+    SkillModule,
+    UserSkillModule,
   ],
   controllers: [AppController],
   providers: [AppService],
