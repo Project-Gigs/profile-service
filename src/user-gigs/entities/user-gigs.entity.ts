@@ -14,11 +14,11 @@ export class UserGigs {
   @Field(() => ID)
   userGigsId: string;
 
-  @Column('uuid', { name: 'contributor_user_id' })
+  @Column({ type: 'uuid', name: 'contributor_user_id' })
   @Field(() => ID)
   contributorUserId: string;
 
-  @Column('uuid', { name: 'gigs_id' })
+  @Column({ type: 'uuid', name: 'gigs_id' })
   @Field(() => ID)
   gigsId: string;
 
