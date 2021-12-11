@@ -5,12 +5,15 @@ import { UserProfileModule } from './user-profile/user-profile.module';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import connectionOptions from './database/ormconfig';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    TypeOrmModule.forRoot(connectionOptions),
     GraphQLModule.forRoot({
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),

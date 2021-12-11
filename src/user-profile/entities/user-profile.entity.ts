@@ -1,18 +1,19 @@
-import { ObjectType, Field, ID, GraphQLISODateTime } from '@nestjs/graphql';
+import { ObjectType, Field, GraphQLISODateTime, Int } from '@nestjs/graphql';
 import {
+  BeforeInsert,
   Column,
   DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  Timestamp,
 } from 'typeorm';
+const bcrypt = require('bcrypt');
 
 @Entity()
 @ObjectType()
 export class UserProfile {
-  @PrimaryGeneratedColumn('uuid')
-  @Field((_) => ID)
-  user_id: string;
+  @PrimaryGeneratedColumn()
+  @Field((_) => Int)
+  user_id: number;
 
   @Column()
   @Field()
@@ -50,16 +51,21 @@ export class UserProfile {
   @Field({ nullable: true })
   card_showoff_url?: string;
 
-  @Column('timestamp')
+  @Column('timestamptz')
   @Field((_) => GraphQLISODateTime)
-  created_at: Timestamp;
+  created_at: Date;
 
-  @Column('timestamp')
+  @Column('timestamptz')
   @Field((_) => GraphQLISODateTime)
-  updated_at: Timestamp;
+  updated_at: Date;
 
-  @Column({ nullable: true, type: 'timestamp' })
+  @Column({ nullable: true, type: 'timestamptz' })
   @Field((_) => GraphQLISODateTime, { nullable: true })
   @DeleteDateColumn()
-  deleted_at?: Timestamp;
+  deleted_at?: Date;
+
+  @BeforeInsert()
+  async hashPassword(password: string) {
+    this.password = await bcrypt.hash(password || this.password, 10);
+  }
 }

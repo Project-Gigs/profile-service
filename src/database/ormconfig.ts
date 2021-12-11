@@ -22,7 +22,7 @@ const connectionOptions: ConnectionOptions = {
   password: config.password,
   database: config.database,
   ssl: false,
-  entities: ['dist/**/entities/*.entity{.ts,.js}'],
+  entities: ['src/**/entities/*.entity{.ts,.js}'],
   // We are using migrations, synchronize should be set to false.
   synchronize: false,
   dropSchema: false,
