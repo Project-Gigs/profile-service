@@ -2,20 +2,13 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type UserProfile {
-  user_id: ID!
-  email: String!
-  password: String!
-  name: String!
-  bio: String
-  slug: String
-  social_media_url: String
-  portfolio_url: String
-  profile_image_url: String
-  card_showoff_url: String
-  created_at: DateTime!
-  updated_at: DateTime!
-  deleted_at: DateTime
+type Skill {
+  skillId: Int!
+  skillName: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAat: DateTime
+  userSkills: [UserSkill!]
 }
 
 """
@@ -23,14 +16,47 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type UserSkill {
+  userSkillId: Int!
+  userProfile: UserProfile!
+  skill: Skill!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+}
+
+type UserProfile {
+  userId: Int!
+  email: String!
+  password: String!
+  name: String!
+  bio: String
+  socialMediaUrl: String
+  portfolioUrl: String
+  profileImageUrl: String
+  cardShowoffUrl: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+  userSkills: [UserSkill!]
+}
+
 type Query {
   userProfile(id: Int!): UserProfile!
+  skill(id: Int!): Skill!
+  userSkill(id: Int!): UserSkill!
 }
 
 type Mutation {
   createUserProfile(createUserProfileInput: CreateUserProfileInput!): UserProfile!
   updateUserProfile(updateUserProfileInput: UpdateUserProfileInput!): UserProfile!
   removeUserProfile(id: Int!): UserProfile!
+  createSkill(createSkillInput: CreateSkillInput!): Skill!
+  updateSkill(updateSkillInput: UpdateSkillInput!): Skill!
+  removeSkill(id: Int!): Skill!
+  createUserSkill(createUserSkillInput: CreateUserSkillInput!): UserSkill!
+  updateUserSkill(updateUserSkillInput: UpdateUserSkillInput!): UserSkill!
+  removeUserSkill(id: Int!): UserSkill!
 }
 
 input CreateUserProfileInput {
@@ -39,6 +65,28 @@ input CreateUserProfileInput {
 }
 
 input UpdateUserProfileInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateSkillInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateSkillInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateUserSkillInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateUserSkillInput {
   """Example field (placeholder)"""
   exampleField: Int
   id: Int!

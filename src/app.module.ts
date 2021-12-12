@@ -6,8 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import connectionOptions from './database/ormconfig';
-import { UserGigsModule } from './user-gigs/user-gigs.module';
+import * as connectionOptions from './database/ormconfig';
 import { SkillModule } from './skill/skill.module';
 import { UserSkillModule } from './user-skill/user-skill.module';
 
@@ -21,7 +20,6 @@ import { UserSkillModule } from './user-skill/user-skill.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
     UserProfileModule,
-    UserGigsModule,
     SkillModule,
     UserSkillModule,
   ],
