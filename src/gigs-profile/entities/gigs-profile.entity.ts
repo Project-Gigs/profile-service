@@ -17,7 +17,7 @@ import {
 export class GigsProfile {
   @PrimaryGeneratedColumn('uuid', { name: 'gigs_id' })
   @Field(() => ID)
-  gigs_id: string;
+  gigsId: string;
 
   @Column('timestamp', { name: 'start_datetime' })
   @Field()
@@ -55,7 +55,7 @@ export class GigsProfile {
   @Field()
   isDeleted: boolean;
 
-  @OneToMany(() => UserProfile, (UserProfile) => UserProfile.user_id)
+  @OneToMany(() => UserProfile, (UserProfile) => UserProfile.userId)
   @Field()
   ownerUserId: string;
 

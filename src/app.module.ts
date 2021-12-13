@@ -10,6 +10,7 @@ import * as connectionOptions from './database/ormconfig';
 import { SkillModule } from './skill/skill.module';
 import { UserSkillModule } from './user-skill/user-skill.module';
 import { GigsProfileModule } from './gigs-profile/gigs-profile.module';
+import { UserGigsModule } from './user-gigs/user-gigs.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { GigsProfileModule } from './gigs-profile/gigs-profile.module';
     SkillModule,
     UserSkillModule,
     GigsProfileModule,
+    UserGigsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
