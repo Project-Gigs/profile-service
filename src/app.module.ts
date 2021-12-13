@@ -10,6 +10,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserGigsModule } from './user-gigs/user-gigs.module';
 import { SkillModule } from './skill/skill.module';
 import { UserSkillModule } from './user-skill/user-skill.module';
+import { GigsProfileModule } from './gigs-profile/gigs-profile.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { UserSkillModule } from './user-skill/user-skill.module';
     UserGigsModule,
     SkillModule,
     UserSkillModule,
+    GigsProfileModule,
   ],
   controllers: [AppController],
   providers: [AppService],
