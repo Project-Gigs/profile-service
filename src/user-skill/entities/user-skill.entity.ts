@@ -1,37 +1,46 @@
-import { ObjectType, Field, ID, GraphQLISODateTime } from '@nestjs/graphql';
+import { ObjectType, Field, GraphQLISODateTime, Int } from '@nestjs/graphql';
+import { Skill } from 'src/skill/entities/skill.entity';
+import { UserProfile } from 'src/user-profile/entities/user-profile.entity';
 import {
-  Column,
   DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  Timestamp,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 
 @Entity()
 @ObjectType()
 export class UserSkill {
-  @PrimaryGeneratedColumn('uuid', { name: 'user_skill_id' })
-  @Field(() => ID)
-  userSkillId: string;
+  @PrimaryGeneratedColumn('increment', { type: 'int', name: 'user_skill_id' })
+  @Field(() => Int)
+  userSkillId: number;
 
-  @Column({ type: 'uuid', name: 'user_id' })
-  @Field(() => ID)
-  userId: string;
+  @ManyToOne(() => UserProfile, (userProfile) => userProfile.userSkills, {
+    cascade: ['insert', 'update', 'soft-remove', 'recover'],
+  })
+  @JoinColumn({ name: 'user_id' })
+  @Field(() => UserProfile)
+  userProfile: UserProfile;
 
-  @Column({ type: 'uuid', name: 'skill_id' })
-  @Field(() => ID)
-  skillId: string;
+  @ManyToOne(() => Skill, (skill) => skill.userSkills, {
+    cascade: ['insert', 'update', 'soft-remove', 'recover'],
+  })
+  @JoinColumn({ name: 'skill_id' })
+  @Field(() => Skill)
+  skill: Skill;
 
-  @Column('timestamp')
+  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   @Field(() => GraphQLISODateTime)
-  created_at: Timestamp;
+  createdAt: Date;
 
-  @Column('timestamp')
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
   @Field(() => GraphQLISODateTime)
-  updated_at: Timestamp;
+  updatedAt: Date;
 
-  @Column({ nullable: true, type: 'timestamp' })
   @Field(() => GraphQLISODateTime, { nullable: true })
-  @DeleteDateColumn()
-  deleted_at?: Timestamp;
+  @DeleteDateColumn({ name: 'deleted_at', nullable: true, type: 'timestamptz' })
+  deletedAt?: Date;
 }
