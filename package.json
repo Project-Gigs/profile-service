@@ -24,7 +24,8 @@
     "migration:generate": "npm run build && npm run typeorm migration:generate -- -n",
     "migration:run": "npm run build && npm run typeorm migration:run",
     "seed:config": "npm run build && npm run typeorm-seeding config",
-    "seed:run": "npm run build && npm run typeorm-seeding seed"
+    "seed:run": "npm run build && npm run typeorm-seeding seed",
+    "schema:drop": "ts-node ./node_modules/typeorm/cli.js schema:drop --config src/database/ormconfig.ts"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
