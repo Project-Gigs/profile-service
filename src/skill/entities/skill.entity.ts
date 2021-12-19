@@ -8,6 +8,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  BeforeInsert,
 } from 'typeorm';
 
 @Entity()
@@ -37,5 +38,10 @@ export class Skill {
     cascade: ['insert', 'update', 'soft-remove', 'recover'],
   })
   @Field((_) => [UserSkill], { nullable: true })
-  userSkills: UserSkill[];
+  userSkills?: UserSkill[];
+
+  @BeforeInsert()
+  async beforeInsertOperation() {
+    this.skillName = this.skillName.toLowerCase();
+  }
 }
