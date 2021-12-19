@@ -1,5 +1,4 @@
 import { ObjectType, Field, GraphQLISODateTime, Int } from '@nestjs/graphql';
-import { random } from 'faker';
 import { UserSkill } from 'src/user-skill/entities/user-skill.entity';
 import {
   BeforeInsert,
@@ -12,8 +11,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-const bcrypt = require('bcrypt');
-const slugify = require('slugify');
+import * as utils from '../../helpers/utils';
 
 @Entity()
 @ObjectType()
@@ -75,14 +73,11 @@ export class UserProfile {
     cascade: ['insert', 'update', 'soft-remove', 'recover'],
   })
   @Field((_) => [UserSkill], { nullable: true })
-  userSkills: UserSkill[];
+  userSkills?: UserSkill[];
 
   @BeforeInsert()
-  async hashPassword(password: string) {
-    this.password = await bcrypt.hash(password || this.password, 10);
-    this.slug = slugify(
-      this.name + ' ' + (Math.floor(Math.random() * 90000) + 10000),
-      { lower: true },
-    );
+  async beforeInsertOperation() {
+    this.password = await utils.default.hashPasswordSync(this.password);
+    this.slug = await utils.default.slugifyName(this.name);
   }
 }
