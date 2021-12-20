@@ -13,7 +13,7 @@ export default class CreateUserProfile implements Seeder {
           email: d.email,
           password: hashedPassword,
           name: d.name,
-          slug: utils.slugifyName(d.name),
+          slug: utils.slugifyName(d.name, false),
           bio: d.bio,
           socialMediaUrl: d.socialMediaUrl,
           portfolioUrl: d.portfolioUrl,
