@@ -2,12 +2,11 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserProfileModule } from './user-profile/user-profile.module';
-import * as connectionOptions from './database/ormconfig';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
-import { join } from 'path/posix';
+import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserGigsModule } from './user-gigs/user-gigs.module';
+import * as connectionOptions from './database/ormconfig';
 import { SkillModule } from './skill/skill.module';
 import { UserSkillModule } from './user-skill/user-skill.module';
 
@@ -16,11 +15,11 @@ import { UserSkillModule } from './user-skill/user-skill.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    TypeOrmModule.forRoot(connectionOptions),
     GraphQLModule.forRoot({
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
     UserProfileModule,
-    UserGigsModule,
     SkillModule,
     UserSkillModule,
   ],

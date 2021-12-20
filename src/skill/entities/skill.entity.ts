@@ -1,33 +1,47 @@
-import { ObjectType, Field, ID, GraphQLISODateTime } from '@nestjs/graphql';
+import { ObjectType, Field, Int, GraphQLISODateTime } from '@nestjs/graphql';
+import { UserSkill } from 'src/user-skill/entities/user-skill.entity';
 import {
   Column,
   DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  Timestamp,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+  BeforeInsert,
 } from 'typeorm';
 
 @Entity()
 @ObjectType()
 export class Skill {
-  @PrimaryGeneratedColumn('uuid', { name: 'skill_id' })
-  @Field(() => ID)
-  skillId: string;
+  @PrimaryGeneratedColumn('increment', { name: 'skill_id', type: 'int' })
+  @Field(() => Int)
+  skillId: number;
 
   @Column({ name: 'skill_name' })
   @Field()
   skillName: string;
 
-  @Column('timestamp')
+  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   @Field(() => GraphQLISODateTime)
-  created_at: Timestamp;
+  createdAt: Date;
 
-  @Column('timestamp')
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
   @Field(() => GraphQLISODateTime)
-  updated_at: Timestamp;
+  updatedAt: Date;
 
-  @Column({ nullable: true, type: 'timestamp' })
   @Field(() => GraphQLISODateTime, { nullable: true })
-  @DeleteDateColumn()
-  deleted_at?: Timestamp;
+  @DeleteDateColumn({ name: 'deleted_at', nullable: true, type: 'timestamptz' })
+  deletedAat?: Date;
+
+  @OneToMany(() => UserSkill, (userSkill) => userSkill.skill, {
+    cascade: ['insert', 'update', 'soft-remove', 'recover'],
+  })
+  @Field((_) => [UserSkill], { nullable: true })
+  userSkills?: UserSkill[];
+
+  @BeforeInsert()
+  async beforeInsertOperation() {
+    this.skillName = this.skillName.toLowerCase();
+  }
 }

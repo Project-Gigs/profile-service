@@ -1,24 +1,31 @@
-import { ObjectType, Field, ID, GraphQLISODateTime } from '@nestjs/graphql';
+import { ObjectType, Field, GraphQLISODateTime, Int } from '@nestjs/graphql';
+import { UserSkill } from 'src/user-skill/entities/user-skill.entity';
 import {
+  BeforeInsert,
   Column,
+  CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  Index,
+  OneToMany,
   PrimaryGeneratedColumn,
-  Timestamp,
+  UpdateDateColumn,
 } from 'typeorm';
+import utils from '../../helpers/utils';
 
 @Entity()
 @ObjectType()
 export class UserProfile {
-  @PrimaryGeneratedColumn('uuid')
-  @Field((_) => ID)
-  user_id: string;
+  @PrimaryGeneratedColumn('increment', { name: 'user_id', type: 'int' })
+  @Field((_) => Int)
+  userId: number;
 
   @Column()
+  @Index({ unique: true })
   @Field()
   email: string;
 
-  @Column()
+  @Column({ select: false })
   @Field()
   password: string;
 
@@ -31,35 +38,46 @@ export class UserProfile {
   bio: string;
 
   @Column()
-  @Field({ nullable: true })
+  @Index({ unique: true })
   slug: string;
 
-  @Column()
+  @Column({ name: 'social_media_url' })
   @Field({ nullable: true })
-  social_media_url?: string;
+  socialMediaUrl?: string;
 
-  @Column()
+  @Column({ name: 'portfolio_url' })
   @Field({ nullable: true })
-  portfolio_url?: string;
+  portfolioUrl?: string;
 
-  @Column()
+  @Column({ name: 'profile_image_url' })
   @Field({ nullable: true })
-  profile_image_url?: string;
+  profileImageUrl?: string;
 
-  @Column()
+  @Column({ name: 'card_showoff_url' })
   @Field({ nullable: true })
-  card_showoff_url?: string;
+  cardShowoffUrl?: string;
 
-  @Column('timestamp')
+  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   @Field((_) => GraphQLISODateTime)
-  created_at: Timestamp;
+  createdAt: Date;
 
-  @Column('timestamp')
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
   @Field((_) => GraphQLISODateTime)
-  updated_at: Timestamp;
+  updatedAt: Date;
 
-  @Column({ nullable: true, type: 'timestamp' })
   @Field((_) => GraphQLISODateTime, { nullable: true })
-  @DeleteDateColumn()
-  deleted_at?: Timestamp;
+  @DeleteDateColumn({ name: 'deleted_at', nullable: true, type: 'timestamptz' })
+  deletedAt?: Date;
+
+  @OneToMany(() => UserSkill, (userSkill) => userSkill.userProfile, {
+    cascade: ['insert', 'update', 'soft-remove', 'recover'],
+  })
+  @Field((_) => [UserSkill], { nullable: true })
+  userSkills?: UserSkill[];
+
+  @BeforeInsert()
+  async beforeInsertOperation() {
+    this.password = await utils.hashPassword(this.password);
+    this.slug = await utils.slugifyName(this.name);
+  }
 }

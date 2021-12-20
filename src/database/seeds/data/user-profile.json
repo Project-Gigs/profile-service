@@ -1,0 +1,32 @@
+[
+  {
+    "email": "test1@mail.com",
+    "password": "password1",
+    "name": "Test 1",
+    "bio": "Bio 1 bio 1",
+    "socialMediaUrl": "socialmediaurl1.com",
+    "portfolioUrl": "portfoliourl1.com",
+    "profileImageUrl": "profileimageurl1.com",
+    "cardShowoffUrl": "cardshowoffurl1.com"
+  },
+  {
+    "email": "test2@mail.com",
+    "password": "password2",
+    "name": "Test 2",
+    "bio": "Bio 2 bio 2",
+    "socialMediaUrl": "socialmediaurl2.com",
+    "portfolioUrl": "portfoliourl2.com",
+    "profileImageUrl": "profileimageurl2.com",
+    "cardShowoffUrl": "cardshowoffurl2.com"
+  },
+  {
+    "email": "test3@mail.com",
+    "password": "password3",
+    "name": "Test 3",
+    "bio": "Bio 3 bio 3",
+    "socialMediaUrl": "socialmediaurl3.com",
+    "portfolioUrl": "portfoliourl3.com",
+    "profileImageUrl": "profileimageurl3.com",
+    "cardShowoffUrl": "cardshowoffurl3.com"
+  }
+]
