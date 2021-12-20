@@ -11,7 +11,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import * as utils from '../../helpers/utils';
+import utils from '../../helpers/utils';
 
 @Entity()
 @ObjectType()
@@ -77,7 +77,7 @@ export class UserProfile {
 
   @BeforeInsert()
   async beforeInsertOperation() {
-    this.password = await utils.default.hashPasswordSync(this.password);
-    this.slug = await utils.default.slugifyName(this.name);
+    this.password = await utils.hashPassword(this.password);
+    this.slug = await utils.slugifyName(this.name);
   }
 }
