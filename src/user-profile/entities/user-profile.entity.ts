@@ -1,4 +1,5 @@
 import { ObjectType, Field, GraphQLISODateTime, Int } from '@nestjs/graphql';
+import { UserGigs } from 'src/user-gigs/entities/user-gigs.entity';
 import { UserSkill } from 'src/user-skill/entities/user-skill.entity';
 import {
   BeforeInsert,
@@ -35,10 +36,11 @@ export class UserProfile {
 
   @Column('text')
   @Field({ nullable: true })
-  bio: string;
+  bio?: string;
 
   @Column()
   @Index({ unique: true })
+  @Field()
   slug: string;
 
   @Column({ name: 'social_media_url' })
@@ -74,6 +76,12 @@ export class UserProfile {
   })
   @Field((_) => [UserSkill], { nullable: true })
   userSkills?: UserSkill[];
+
+  @OneToMany(() => UserGigs, (userGigs) => userGigs.userProfile, {
+    cascade: ['insert', 'update', 'soft-remove', 'recover'],
+  })
+  @Field((_) => [UserGigs], { nullable: true })
+  userGigs: UserGigs[];
 
   @BeforeInsert()
   async beforeInsertOperation() {

@@ -9,7 +9,9 @@ export class UserSkillResolver {
   constructor(private readonly userSkillService: UserSkillService) {}
 
   @Mutation(() => UserSkill)
-  createUserSkill(@Args('createUserSkillInput') createUserSkillInput: CreateUserSkillInput) {
+  createUserSkill(
+    @Args('createUserSkillInput') createUserSkillInput: CreateUserSkillInput,
+  ) {
     return this.userSkillService.create(createUserSkillInput);
   }
 
@@ -24,8 +26,13 @@ export class UserSkillResolver {
   }
 
   @Mutation(() => UserSkill)
-  updateUserSkill(@Args('updateUserSkillInput') updateUserSkillInput: UpdateUserSkillInput) {
-    return this.userSkillService.update(updateUserSkillInput.id, updateUserSkillInput);
+  updateUserSkill(
+    @Args('updateUserSkillInput') updateUserSkillInput: UpdateUserSkillInput,
+  ) {
+    return this.userSkillService.update(
+      updateUserSkillInput.id,
+      updateUserSkillInput,
+    );
   }
 
   @Mutation(() => UserSkill)
