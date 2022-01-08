@@ -1,0 +1,22 @@
+[
+  {
+    "userProfile": 1,
+    "skill": 1
+  },
+  {
+    "userProfile": 1,
+    "skill": 2
+  },
+  {
+    "userProfile": 1,
+    "skill": 3
+  },
+  {
+    "userProfile": 2,
+    "skill": 1
+  },
+  {
+    "userProfile": 3,
+    "skill": 2
+  }
+]

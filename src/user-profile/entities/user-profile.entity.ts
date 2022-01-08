@@ -12,8 +12,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-const bcrypt = require('bcrypt');
-const slugify = require('slugify');
+import utils from '../../helpers/utils';
 
 @Entity()
 @ObjectType()
@@ -76,7 +75,7 @@ export class UserProfile {
     cascade: ['insert', 'update', 'soft-remove', 'recover'],
   })
   @Field((_) => [UserSkill], { nullable: true })
-  userSkills: UserSkill[];
+  userSkills?: UserSkill[];
 
   @OneToMany(() => UserGigs, (userGigs) => userGigs.userProfile, {
     cascade: ['insert', 'update', 'soft-remove', 'recover'],
@@ -85,11 +84,8 @@ export class UserProfile {
   userGigs: UserGigs[];
 
   @BeforeInsert()
-  async hashPassword(password: string) {
-    this.password = await bcrypt.hash(password || this.password, 10);
-    this.slug = slugify(
-      this.name + ' ' + (Math.floor(Math.random() * 90000) + 10000),
-      { lower: true },
-    );
+  async beforeInsertOperation() {
+    this.password = await utils.hashPassword(this.password);
+    this.slug = await utils.slugifyName(this.name);
   }
 }
