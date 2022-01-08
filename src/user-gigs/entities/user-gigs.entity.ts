@@ -1,4 +1,4 @@
-import { ObjectType, Field, ID, GraphQLISODateTime } from '@nestjs/graphql';
+import { ObjectType, Field, Int, GraphQLISODateTime } from '@nestjs/graphql';
 import { GigsProfile } from 'src/gigs-profile/entities/gigs-profile.entity';
 import { UserProfile } from 'src/user-profile/entities/user-profile.entity';
 import {
@@ -8,24 +8,30 @@ import {
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
-  Timestamp,
   UpdateDateColumn,
+  JoinColumn,
 } from 'typeorm';
 
 @Entity()
 @ObjectType()
 export class UserGigs {
-  @PrimaryGeneratedColumn('uuid', { name: 'user_gigs_id' })
-  @Field(() => ID)
-  userGigsId: string;
+  @PrimaryGeneratedColumn('increment', { type: 'int', name: 'user_gigs_id' })
+  @Field(() => Int)
+  userGigsId: number;
 
-  @ManyToOne(() => UserProfile, (UserProfile) => UserProfile.userId)
-  @Field()
-  contributorUserId: string;
+  @ManyToOne(() => UserProfile, (userProfile) => userProfile.userGigs, {
+    cascade: ['insert', 'update', 'soft-remove', 'recover'],
+  })
+  @JoinColumn({ name: 'user_id' })
+  @Field(() => UserProfile)
+  userProfile: UserProfile;
 
-  @ManyToOne(() => GigsProfile, (GigsProfile) => GigsProfile.gigsId)
-  @Field()
-  gigsId: string;
+  @ManyToOne(() => GigsProfile, (gigsProfile) => gigsProfile.userGigs, {
+    cascade: ['insert', 'update', 'soft-remove', 'recover'],
+  })
+  @JoinColumn({ name: 'gigs_id' })
+  @Field(() => GigsProfile)
+  gigsProfile: GigsProfile;
 
   @Column({ default: false, name: 'is_in_gigs' })
   @Field()
@@ -33,13 +39,13 @@ export class UserGigs {
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   @Field(() => GraphQLISODateTime)
-  created_at: Timestamp;
+  createdAt: Date;
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
   @Field(() => GraphQLISODateTime)
-  updated_at: Timestamp;
+  updatedAt: Date;
 
+  @Field(() => GraphQLISODateTime, { nullable: true })
   @DeleteDateColumn({ name: 'deleted_at', nullable: true, type: 'timestamptz' })
-  @Field((_) => GraphQLISODateTime, { nullable: true })
-  deleted_at?: Timestamp;
+  deletedAt?: Date;
 }

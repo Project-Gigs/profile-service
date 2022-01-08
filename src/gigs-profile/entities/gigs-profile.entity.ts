@@ -1,12 +1,11 @@
-import { ObjectType, Field, GraphQLISODateTime, ID } from '@nestjs/graphql';
+import { ObjectType, Field, GraphQLISODateTime, Int } from '@nestjs/graphql';
 import slugify from 'slugify';
-import { UserProfile } from 'src/user-profile/entities/user-profile.entity';
+import { UserGigs } from 'src/user-gigs/entities/user-gigs.entity';
 import {
   BeforeInsert,
   Column,
   DeleteDateColumn,
   PrimaryGeneratedColumn,
-  Timestamp,
   Index,
   CreateDateColumn,
   UpdateDateColumn,
@@ -15,35 +14,28 @@ import {
 
 @ObjectType()
 export class GigsProfile {
-  @PrimaryGeneratedColumn('uuid', { name: 'gigs_id' })
-  @Field(() => ID)
+  @PrimaryGeneratedColumn('increment', { name: 'gigs_id', type: 'int' })
+  @Field(() => Int)
   gigsId: string;
-
-  @Column('timestamp', { name: 'start_datetime' })
-  @Field()
-  startDatetime: Timestamp;
-
-  @Column('timestamp', { name: 'finish_datetime' })
-  @Field({ nullable: true })
-  finishDatetime?: Timestamp;
 
   @Column('string', { name: 'gigs_name' })
   @Field()
-  gigsName: string;
+  name: string;
 
-  @Column('string', { name: 'gigs_slug' })
+  @Column('string', { name: 'slug' })
   @Index({ unique: true })
-  gigsSlug: string;
-
-  @Column('boolean', { name: 'preview_link' })
   @Field()
-  previewLink: boolean;
+  slug: string;
 
-  @Column('string', { name: 'description' })
+  @Column('text', { name: 'description' })
   @Field()
-  description: string;
+  description: Text;
 
-  @Column('string', { name: 'requirement' })
+  @Column('string', { name: 'preview_url' })
+  @Field()
+  previewUrl: string;
+
+  @Column('text', { name: 'requirement' })
   @Field()
   requirement: string;
 
@@ -51,30 +43,36 @@ export class GigsProfile {
   @Field()
   maxMember: number;
 
-  @Column('boolean', { name: 'is_deleted' })
+  @Column({ name: 'start_datetime', type: 'timestamptz' })
   @Field()
-  isDeleted: boolean;
+  startDatetime: Date;
 
-  @OneToMany(() => UserProfile, (UserProfile) => UserProfile.userId)
-  @Field()
-  ownerUserId: string;
+  @Column({ name: 'finish_datetime' })
+  @Field({ nullable: true })
+  finishDatetime?: Date;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   @Field(() => GraphQLISODateTime)
-  created_at: Timestamp;
+  created_at: Date;
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
   @Field(() => GraphQLISODateTime)
-  updated_at: Timestamp;
+  updated_at: Date;
 
   @DeleteDateColumn({ name: 'deleted_at', nullable: true, type: 'timestamptz' })
   @Field((_) => GraphQLISODateTime, { nullable: true })
-  deleted_at?: Timestamp;
+  deleted_at?: Date;
+
+  @OneToMany(() => UserGigs, (userGigs) => userGigs.gigsProfile, {
+    cascade: ['insert', 'update', 'soft-remove', 'recover'],
+  })
+  @Field((_) => [UserGigs], { nullable: true })
+  userGigs: UserGigs[];
 
   @BeforeInsert()
   createGigsSlug() {
-    this.gigsSlug = slugify(
-      this.gigsName + ' ' + (Math.floor(Math.random() * 90000) + 10000),
+    this.slug = slugify(
+      this.name + ' ' + (Math.floor(Math.random() * 90000) + 10000),
       { lower: true },
     );
   }
