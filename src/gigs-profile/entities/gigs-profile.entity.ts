@@ -29,7 +29,7 @@ export class GigsProfile {
 
   @Column('text', { name: 'description' })
   @Field()
-  description: Text;
+  description: string;
 
   @Column('string', { name: 'preview_url' })
   @Field()

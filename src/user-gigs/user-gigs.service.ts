@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserGigInput } from './dto/create-user-gig.input';
-import { UpdateUserGigInput } from './dto/update-user-gig.input';
+import { CreateUserGigsInput } from './dto/create-user-gig.input';
+import { UpdateUserGigsInput } from './dto/update-user-gig.input';
 
 @Injectable()
 export class UserGigsService {
-  create(createUserGigInput: CreateUserGigInput) {
+  create(createUserGigsInput: CreateUserGigsInput) {
     return 'This action adds a new userGig';
   }
 
@@ -16,7 +16,7 @@ export class UserGigsService {
     return `This action returns a #${id} userGig`;
   }
 
-  update(id: number, updateUserGigInput: UpdateUserGigInput) {
+  update(id: number, updateUserGigsInput: UpdateUserGigsInput) {
     return `This action updates a #${id} userGig`;
   }
 
