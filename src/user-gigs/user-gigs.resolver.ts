@@ -9,7 +9,7 @@ export class UserGigsResolver {
   constructor(private readonly userGigsService: UserGigsService) {}
 
   @Mutation(() => UserGigs)
-  createUserGig(
+  createUserGigs(
     @Args('createUserGigsInput') createUserGigsInput: CreateUserGigsInput,
   ) {
     return this.userGigsService.create(createUserGigsInput);
@@ -20,13 +20,13 @@ export class UserGigsResolver {
     return this.userGigsService.findAll();
   }
 
-  @Query(() => UserGigs, { name: 'userGig' })
+  @Query(() => UserGigs, { name: 'userGigs' })
   findOne(@Args('id', { type: () => Int }) id: number) {
     return this.userGigsService.findOne(id);
   }
 
   @Mutation(() => UserGigs)
-  updateUserGig(
+  updateUserGigs(
     @Args('updateUserGigsInput') updateUserGigsInput: UpdateUserGigsInput,
   ) {
     return this.userGigsService.update(
@@ -36,7 +36,7 @@ export class UserGigsResolver {
   }
 
   @Mutation(() => UserGigs)
-  removeUserGig(@Args('id', { type: () => Int }) id: number) {
+  removeUserGigs(@Args('id', { type: () => Int }) id: number) {
     return this.userGigsService.remove(id);
   }
 }

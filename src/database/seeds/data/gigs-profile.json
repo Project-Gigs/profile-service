@@ -1,0 +1,29 @@
+[
+  {
+    "name": "Test Gigs 1",
+    "description": "Test Description 1",
+    "previewUrl": "previewgigs1.com",
+    "requirement": "Test Requirement 1",
+    "maxMember": 3,
+    "startDateTime": "2022-01-07T00:00:00.000Z",
+    "finishDateTime": "2022-05-07T00:00:00.000Z"
+  },
+  {
+    "name": "Test Gigs 2",
+    "description": "Test Description 2",
+    "previewUrl": "previewgigs2.com",
+    "requirement": "Test Requirement 2",
+    "maxMember": 5,
+    "startDateTime": "2022-01-08T00:00:00.000Z",
+    "finishDateTime": "2022-06-20T00:00:00.000Z"
+  },
+  {
+    "name": "Test Gigs 3",
+    "description": "Test Description 3",
+    "previewUrl": "previewgigs3.com",
+    "requirement": "Test Requirement 3",
+    "maxMember": 3,
+    "startDateTime": "2022-01-09T00:00:00.000Z",
+    "finishDateTime": "2022-03-04T00:00:00.000Z"
+  }
+]

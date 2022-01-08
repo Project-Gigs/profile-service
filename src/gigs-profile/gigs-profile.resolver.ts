@@ -9,7 +9,10 @@ export class GigsProfileResolver {
   constructor(private readonly gigsProfileService: GigsProfileService) {}
 
   @Mutation(() => GigsProfile)
-  createGigsProfile(@Args('createGigsProfileInput') createGigsProfileInput: CreateGigsProfileInput) {
+  createGigsProfile(
+    @Args('createGigsProfileInput')
+    createGigsProfileInput: CreateGigsProfileInput,
+  ) {
     return this.gigsProfileService.create(createGigsProfileInput);
   }
 
@@ -24,8 +27,14 @@ export class GigsProfileResolver {
   }
 
   @Mutation(() => GigsProfile)
-  updateGigsProfile(@Args('updateGigsProfileInput') updateGigsProfileInput: UpdateGigsProfileInput) {
-    return this.gigsProfileService.update(updateGigsProfileInput.id, updateGigsProfileInput);
+  updateGigsProfile(
+    @Args('updateGigsProfileInput')
+    updateGigsProfileInput: UpdateGigsProfileInput,
+  ) {
+    return this.gigsProfileService.update(
+      updateGigsProfileInput.id,
+      updateGigsProfileInput,
+    );
   }
 
   @Mutation(() => GigsProfile)

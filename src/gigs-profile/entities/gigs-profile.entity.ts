@@ -10,58 +10,60 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  Entity,
 } from 'typeorm';
 
+@Entity()
 @ObjectType()
 export class GigsProfile {
   @PrimaryGeneratedColumn('increment', { name: 'gigs_id', type: 'int' })
   @Field(() => Int)
   gigsId: string;
 
-  @Column('string', { name: 'gigs_name' })
+  @Column()
   @Field()
   name: string;
 
-  @Column('string', { name: 'slug' })
+  @Column()
   @Index({ unique: true })
   @Field()
   slug: string;
 
-  @Column('text', { name: 'description' })
+  @Column({ name: 'description', type: 'text' })
   @Field()
   description: string;
 
-  @Column('string', { name: 'preview_url' })
+  @Column({ name: 'preview_url' })
   @Field()
   previewUrl: string;
 
-  @Column('text', { name: 'requirement' })
+  @Column({ name: 'requirement' })
   @Field()
   requirement: string;
 
-  @Column('int', { name: 'max_member' })
+  @Column({ name: 'max_member', type: 'int' })
   @Field()
   maxMember: number;
 
   @Column({ name: 'start_datetime', type: 'timestamptz' })
   @Field()
-  startDatetime: Date;
+  startDateTime: Date;
 
   @Column({ name: 'finish_datetime' })
   @Field({ nullable: true })
-  finishDatetime?: Date;
+  finishDateTime?: Date;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   @Field(() => GraphQLISODateTime)
-  created_at: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
   @Field(() => GraphQLISODateTime)
-  updated_at: Date;
+  updatedAt: Date;
 
   @DeleteDateColumn({ name: 'deleted_at', nullable: true, type: 'timestamptz' })
   @Field((_) => GraphQLISODateTime, { nullable: true })
-  deleted_at?: Date;
+  deletedAt?: Date;
 
   @OneToMany(() => UserGigs, (userGigs) => userGigs.gigsProfile, {
     cascade: ['insert', 'update', 'soft-remove', 'recover'],

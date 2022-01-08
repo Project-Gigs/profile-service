@@ -2,7 +2,6 @@ import { ObjectType, Field, Int, GraphQLISODateTime } from '@nestjs/graphql';
 import { GigsProfile } from 'src/gigs-profile/entities/gigs-profile.entity';
 import { UserProfile } from 'src/user-profile/entities/user-profile.entity';
 import {
-  Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
@@ -32,10 +31,6 @@ export class UserGigs {
   @JoinColumn({ name: 'gigs_id' })
   @Field(() => GigsProfile)
   gigsProfile: GigsProfile;
-
-  @Column({ default: false, name: 'is_in_gigs' })
-  @Field()
-  isInGigs: boolean;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   @Field(() => GraphQLISODateTime)

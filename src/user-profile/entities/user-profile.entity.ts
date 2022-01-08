@@ -36,7 +36,7 @@ export class UserProfile {
 
   @Column('text')
   @Field({ nullable: true })
-  bio: string;
+  bio?: string;
 
   @Column()
   @Index({ unique: true })
